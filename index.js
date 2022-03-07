@@ -9,6 +9,7 @@ const Genres = require('./models/genres');
 const Users = require('./models/users');
 
 const jwtGenerator = require('./util/jwtGenerator');
+const auth = require('./middleware/auth');
 
 const app = express();
 const port = 5000;
@@ -36,12 +37,12 @@ app.post('/register', async (req, res) => {
         } else {
 
             //If a user is allready present
-            const userPresent = await Users.findAll({
+            const userPresent = await Users.findOne({
                 where: {
-                    email: email
+                    email
                 }
             })
-            if (userPresent.length > 0) {
+            if (userPresent) {
                 res.json("This Email Is Allready Registered!");
             } else {
                 const saltRounds = 10;
@@ -78,22 +79,23 @@ app.post('/login', async (req, res) => {
             res.json("Invalid Email Is Provided");
         } else {
             //If email is not present in db
-            const user = await Users.findAll({
+            const user = await Users.findOne({
                 where: {
-                    email: email
+                    email
                 }
             })
+            console.log("User")
             console.log(user)
-            if (user.length === 0) { //No match found
+            if (!user) { //No match found
                 res.json("Email Is Not Registered!");
             } else {
                 //If email is present compare passwords
-                const presentPassword = JSON.stringify(user[0].password);
+                const presentPassword = JSON.stringify(user.password);
                 const matchedPassword = await bcrypt.compare(password, JSON.parse(presentPassword));
 
                 if (matchedPassword) {
                     //Generate JWT Token
-                    const userId = JSON.stringify(user).id;
+                    const userId = JSON.stringify(user.id);
                     const jwtToken = jwtGenerator(userId);
                     res.json({ jwtToken });
                 } else {
@@ -101,6 +103,30 @@ app.post('/login', async (req, res) => {
                 }
             }
         }
+    } catch (error) {
+        console.log(error)
+    }
+})
+
+//Is the user authenticate
+app.get('/valid-check', auth, async(req, res) => {
+    try {
+        res.json(true)
+    } catch (error) {
+        console.log(error)
+    }
+})
+
+//Dashboard Page
+app.get('/dashboard', auth, async(req, res) => {
+    try {
+        const userId = parseInt(req.user);
+        const userDetails = await Users.findOne({
+            where: {
+                id: userId
+            }
+        })
+        res.json(userDetails.firstName); //Can return other values also
     } catch (error) {
         console.log(error)
     }
