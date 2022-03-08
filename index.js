@@ -1,8 +1,7 @@
-//const seed = require('./seed');
 const express = require('express');
 const cors = require('cors');
 const bcrypt = require('bcrypt');
-const sequelize = require('./util/database');
+//const Sequelize = require('./util/database');
 
 const Questions = require('./models/questions');
 const Genres = require('./models/genres');
@@ -37,6 +36,8 @@ app.post('/register', async (req, res) => {
         } else {
 
             //If a user is allready present
+            console.log("check")
+            console.log(Users)
             const userPresent = await Users.findOne({
                 where: {
                     email
@@ -59,7 +60,8 @@ app.post('/register', async (req, res) => {
                 console.log("Stringy");
                 console.log(JSON.stringify(newUser.id))
                 //Jwt Token Generate
-                const userId = JSON.stringify(newUser).id;
+                const userId = JSON.stringify(newUser.id);
+                console.log(userId);
                 const jwtToken = jwtGenerator(userId);
                 res.json({ jwtToken });
             }
@@ -79,6 +81,7 @@ app.post('/login', async (req, res) => {
             res.json("Invalid Email Is Provided");
         } else {
             //If email is not present in db
+            console.log(Users)
             const user = await Users.findOne({
                 where: {
                     email

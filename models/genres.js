@@ -1,18 +1,24 @@
-const { DataTypes } = require('sequelize');
-const sequelize = require('../util/database');
-
-const Genres = sequelize.define('genres', {
-  // Model attributes are defined here
-    genreId: {
-        type: DataTypes.STRING,
-        primaryKey: true,
-        allowNull: false,
-    },
-    genreName: {
-        type: DataTypes.STRING,
-        allowNull: false,
+'use strict';
+const {
+  Model
+} = require('sequelize');
+module.exports = (sequelize, DataTypes) => {
+  class genres extends Model {
+    /**
+     * Helper method for defining associations.
+     * This method is not a part of Sequelize lifecycle.
+     * The `models/index` file will call this method automatically.
+     */
+    static associate(models) {
+      // define association here
     }
-  
-});
-
-module.exports = Genres;
+  }
+  genres.init({
+    genreId: DataTypes.STRING,
+    genreName: DataTypes.STRING
+  }, {
+    sequelize,
+    modelName: 'genres',
+  });
+  return genres;
+};
