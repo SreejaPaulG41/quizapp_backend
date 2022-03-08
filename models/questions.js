@@ -3,7 +3,7 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class questions extends Model {
+  class Questions extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -11,18 +11,47 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      Questions.belongsTo(models.Genres);
     }
   }
-  questions.init({
-    questionId: DataTypes.INTEGER,
-    questionText: DataTypes.STRING,
-    questionMark: DataTypes.INTEGER,
-    timeAlloted: DataTypes.INTEGER,
-    answerOptions: DataTypes.JSONB,
-    genreId: DataTypes.STRING
+  Questions.init({
+    questionId: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      primaryKey: true,
+      allowNull: false,
+    },
+    questionText: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    questionMark: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    timeAlloted: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    answerOptions: {
+      type: DataTypes.JSONB,
+      allowNull: false,
+    },
+    genreId: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    createdAt: {
+      allowNull: false,
+      type: DataTypes.DATE
+    },
+    updatedAt: {
+      allowNull: false,
+      type: DataTypes.DATE
+    }
   }, {
     sequelize,
-    modelName: 'questions',
+    modelName: 'Questions',
   });
-  return questions;
+  return Questions;
 };

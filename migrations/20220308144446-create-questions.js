@@ -1,32 +1,32 @@
 'use strict';
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('questions', {
+    await queryInterface.createTable('Questions', {
       questionId: {
-        type: Sequelize.INTEGER,
+        allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        allowNull: false,
+        type: Sequelize.INTEGER
       },
       questionText: {
-        type: Sequelize.STRING,
         allowNull: false,
+        type: Sequelize.TEXT
       },
       questionMark: {
-        type: Sequelize.INTEGER,
         allowNull: false,
+        type: Sequelize.INTEGER
       },
       timeAlloted: {
-        type: Sequelize.INTEGER,
         allowNull: false,
+        type: Sequelize.INTEGER
       },
-      answerOptions: {
-        type: Sequelize.JSONB,
+      answerOption: {
         allowNull: false,
+        type: Sequelize.JSONB
       },
       genreId: {
-        type: Sequelize.STRING,
         allowNull: false,
+        type: Sequelize.STRING
       },
       createdAt: {
         allowNull: false,
@@ -37,11 +37,11 @@ module.exports = {
         type: Sequelize.DATE
       }
     });
-    await queryInterface.addConstraint('questions', {
+    await queryInterface.addConstraint('Questions', {
       type: 'foreign key',
       fields: ['genreId'],
       references: { //Required field
-        table: 'genres',
+        table: 'Genres',
         field: 'genreId'
       },
       onDelete: 'cascade',
@@ -49,6 +49,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('questions');
+    await queryInterface.dropTable('Questions');
   }
 };

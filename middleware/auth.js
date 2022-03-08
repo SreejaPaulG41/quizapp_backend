@@ -11,12 +11,12 @@ const auth = async (req, res, next)=>{
             req.user = await payload.user;
             next();
         }else{
-            res.json("Not Valid User");
+            res.status(403).send("Not Valid User");
             next();
         }
     } catch (error) {
         console.log(error)
-        res.json("Not Valid!");
+        res.status(403).send("Not Valid!");
         next(error);
     }
 }
