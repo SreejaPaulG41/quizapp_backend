@@ -11,7 +11,7 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
     */
-    return queryInterface.bulkInsert('questions', [
+    return queryInterface.bulkInsert('Questions', [
       {
         questionId: 1,
         genreId: 'GK01',
@@ -623,6 +623,6 @@ module.exports = {
      * Example:
      * await queryInterface.bulkDelete('People', null, {});
      */
-    return queryInterface.bulkDelete('questions', null, {});
+    return queryInterface.bulkDelete('Questions', null, {});
   }
 };

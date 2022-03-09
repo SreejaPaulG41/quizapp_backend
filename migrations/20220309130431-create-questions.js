@@ -20,7 +20,7 @@ module.exports = {
         allowNull: false,
         type: Sequelize.INTEGER
       },
-      answerOption: {
+      answerOptions: {
         allowNull: false,
         type: Sequelize.JSONB
       },
@@ -47,6 +47,7 @@ module.exports = {
       onDelete: 'cascade',
       onUpdate: 'cascade'
     });
+
   },
   async down(queryInterface, Sequelize) {
     await queryInterface.dropTable('Questions');

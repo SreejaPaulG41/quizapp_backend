@@ -15,7 +15,18 @@ router.get('/dashboard', auth, async(req, res) => {
         })
         res.json(userDetails.firstName); //Can return other values also
     } catch (error) {
-        console.log(error)
+        console.log(error);
+        res.status(403).send("Not Authorized User!");
+    }
+})
+
+router.get('/genreDetails', auth, async(req, res) => {
+    try {
+        const genreDetails = await models.Genres.findAll();
+        res.json(genreDetails);
+    } catch (error) {
+        console.log(error);
+        res.status(403).send("Not Authorized User!");
     }
 })
 

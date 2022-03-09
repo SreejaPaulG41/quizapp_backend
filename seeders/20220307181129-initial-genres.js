@@ -11,7 +11,7 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
     */
-     return queryInterface.bulkInsert('genres', [
+     return queryInterface.bulkInsert('Genres', [
       {
         genreName: 'General Knowledge',
         genreId: 'GK01',
@@ -45,6 +45,6 @@ module.exports = {
      * Example:
      * await queryInterface.bulkDelete('People', null, {});
      */
-     return queryInterface.bulkDelete('genres', null, {});
+     return queryInterface.bulkDelete('Genres', null, {});
   }
 };

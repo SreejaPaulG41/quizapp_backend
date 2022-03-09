@@ -7,6 +7,7 @@ const auth = require('./middleware/auth');
 
 const authenticationRoute = require('./router/authentication');
 const dashboard = require('./router/dasboard');
+const questions = require('./router/questions');
 
 const app = express();
 const port = 5000;
@@ -33,18 +34,25 @@ app.get('/valid-check', auth, async(req, res) => {
 //Dashboard Page
 app.use('/',dashboard);
 
+//Questions
+app.use('/',questions);
+
 // app.get('/check', async(req, res)=>{
 //     const rj = await models.Genres.findOne({
 //         where :{
-//           genreName : "React JS"  
-//         }
+          
+//         },
+//         include: [{
+//             model: models.Questions,
+//             where: {
+//                 genreId: 'JS02'  ,
+//                 questionText: "a"
+//             }
+//         }]
 //     })
 //     // console.log(JSON.stringify(rj.genreId))
 //     // const val = JSON.stringify(rj.genreId);
 //     const ques = await models.Questions.findAll({
-//         where:{
-
-//         },
 //         include: [{
 //             model: models.Genres,
 //             where: {
