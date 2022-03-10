@@ -37,4 +37,10 @@ db.Sequelize = Sequelize;
 db.Genres.hasMany(db.Questions, {foreignKey: {name: "genreId",field: "genreId"}});
 db.Questions.belongsTo(db.Genres, {foreignKey: {name: "genreId",field: "genreId"}});
 
+db.Genres.hasMany(db.Answers, {foreignKey: {name: "genreId",field: "genreId"}});
+db.Answers.belongsTo(db.Genres, {foreignKey: {name: "genreId",field: "genreId"}});
+
+db.Users.hasMany(db.Answers, {foreignKey: {name: "userId",field: "userId"}});
+db.Answers.belongsTo(db.Users, {foreignKey: {name: "userId",field: "userId"}});
+
 module.exports = db;

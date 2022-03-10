@@ -8,6 +8,7 @@ const auth = require('./middleware/auth');
 const authenticationRoute = require('./router/authentication');
 const dashboard = require('./router/dasboard');
 const questions = require('./router/questions');
+const answers = require('./router/result');
 
 const app = express();
 const port = 5000;
@@ -36,6 +37,9 @@ app.use('/',dashboard);
 
 //Questions
 app.use('/',questions);
+
+//store the given answers
+app.use('/',answers);
 
 // app.get('/check', async(req, res)=>{
 //     const rj = await models.Genres.findOne({

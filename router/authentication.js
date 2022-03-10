@@ -3,7 +3,7 @@ const router = express.Router();
 
 const bcrypt = require('bcrypt');
 
-const model = require('../models');
+const { Users } = require('../models');
 const jwtGenerator = require('../util/jwtGenerator');
 
 const validEmail = (userEmail) => {
@@ -19,36 +19,40 @@ router.post('/register', async (req, res) => {
         } else if (!validEmail(email)) {
             res.status(401).send("Invalid Email Is Provided");
         } else {
-
-            //If a user is allready present
-            console.log("check")
-            console.log(model.Users)
-            const userPresent = await model.Users.findOne({
-                where: {
-                    email
-                }
-            })
-            if (userPresent) {
-                res.status(401).send("This Email Is Allready Registered!");
-            } else {
-                const saltRounds = 10;
-                //Generate a salt
-                const salt = await bcrypt.genSalt(saltRounds);
-                //Hash Password
-                const bcryptPassword = await bcrypt.hash(password, salt);
-                //Add This Password along with other credentials
-                const newUser = await model.Users.create({
-                    firstName: firstName, lastName: lastName, email: email, password: bcryptPassword
+            try {
+                //If a user is allready present
+                console.log("check")
+                console.log(Users)
+                const userPresent = await Users.findOne({
+                    where: {
+                        email
+                    }
                 })
-                console.log("newUser")
-                console.log(newUser);
-                console.log("Stringy");
-                console.log(JSON.stringify(newUser.id))
-                //Jwt Token Generate
-                const userId = JSON.stringify(newUser.id);
-                console.log(userId);
-                const jwtToken = jwtGenerator(userId);
-                res.json({ jwtToken });
+                if (userPresent) {
+                    res.status(401).send("This Email Is Allready Registered!");
+                } else {
+                    const saltRounds = 10;
+                    //Generate a salt
+                    const salt = await bcrypt.genSalt(saltRounds);
+                    //Hash Password
+                    const bcryptPassword = await bcrypt.hash(password, salt);
+                    //Add This Password along with other credentials
+                    const newUser = await Users.create({
+                        firstName: firstName, lastName: lastName, email: email, password: bcryptPassword
+                    })
+                    console.log("newUser")
+                    console.log(newUser);
+                    console.log("Stringy");
+                    console.log(JSON.stringify(newUser.id))
+                    //Jwt Token Generate
+                    const userId = JSON.stringify(newUser.id);
+                    console.log(userId);
+                    const jwtToken = jwtGenerator(userId);
+                    res.json({ jwtToken });
+                }
+            } catch (error) {
+                console.log(error)
+                res.status(502).send(error);
             }
         }
     } catch (error) {
@@ -66,30 +70,35 @@ router.post('/login', async (req, res) => {
         } else if (!validEmail(email)) {
             res.status(401).send("Invalid Email Is Provided");
         } else {
-            //If email is not present in db
-            console.log(model.Users)
-            const user = await model.Users.findOne({
-                where: {
-                    email
-                }
-            })
-            console.log("User")
-            console.log(user)
-            if (!user) { //No match found
-                res.status(401).send("Email Is Not Registered!");
-            } else {
-                //If email is present compare passwords
-                const presentPassword = JSON.stringify(user.password);
-                const matchedPassword = await bcrypt.compare(password, JSON.parse(presentPassword));
-
-                if (matchedPassword) {
-                    //Generate JWT Token
-                    const userId = JSON.stringify(user.id);
-                    const jwtToken = jwtGenerator(userId);
-                    res.json({ jwtToken });
+            try {
+                //If email is not present in db
+                console.log(Users)
+                const user = await Users.findOne({
+                    where: {
+                        email
+                    }
+                })
+                console.log("User")
+                console.log(user)
+                if (!user) { //No match found
+                    res.status(401).send("Email Is Not Registered!");
                 } else {
-                    res.status(401).send("Password Incorrect!");
+                    //If email is present compare passwords
+                    const presentPassword = JSON.stringify(user.password);
+                    const matchedPassword = await bcrypt.compare(password, JSON.parse(presentPassword));
+
+                    if (matchedPassword) {
+                        //Generate JWT Token
+                        const userId = JSON.stringify(user.id);
+                        const jwtToken = jwtGenerator(userId);
+                        res.json({ jwtToken });
+                    } else {
+                        res.status(401).send("Password Incorrect!");
+                    }
                 }
+            } catch (error) {
+                console.log(error)
+                res.status(502).send(error);
             }
         }
     } catch (error) {
