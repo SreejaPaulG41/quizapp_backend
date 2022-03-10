@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const morgan = require('morgan');
 
 const models = require('./models');
 
@@ -15,6 +16,8 @@ const port = 5000;
 
 app.use(cors());
 app.use(express.json());
+
+app.use(morgan('tiny'));
 
 app.listen(port, () => {
     console.log(`Listening To Port ${port}`);
