@@ -8,17 +8,27 @@ const auth = require('../middleware/auth');
 const {Users, Genres, Questions, Answers} = require('../models');
 
 //After submit answer store
-router.post('/submtAnswers', auth, async(req, res)=>{
+router.post('/submitAnswers', auth, async(req, res)=>{
     try {
         const userId = parseInt(req.user);
         const {genreId, givenAnswerArr} = req.body;
         try {
-            const addAnswer = await Answers.create({
-                userId,
-                genreId,
-                givenAnswerDetails: givenAnswerArr
+            const presentAns = await Answers.findOne({
+                where: {
+                    genreId,
+                    userId
+                }
             })
-            res.status(200).send("Answeres Submitted Successfully");
+            if(!presentAns){
+                const addAnswer = await Answers.create({
+                    userId,
+                    genreId,
+                    givenAnswerDetails: givenAnswerArr,
+                })
+                res.status(200).json(addAnswer);
+            }else{
+                res.status(502).send("One User Can Not Submit Same Genre Question Twice!");
+            }
         } catch (error) {
             console.log(error)
             res.status(502).send(error);
@@ -33,7 +43,7 @@ router.post('/submtAnswers', auth, async(req, res)=>{
 router.get('/getAnswerDetails', auth, async(req, res)=>{
     try {
         const userId = parseInt(req.user);
-        const { genreId } = req.body;
+        const { genreId } = req.query;
         try {
             //Get all answerdata 
             const answerStored = await Answers.findOne({
@@ -57,7 +67,12 @@ router.get('/getAnswerDetails', auth, async(req, res)=>{
             })
             //Add all the details and send the details as response
             const resultArr = allQuestionDetails.map((item, index)=>({
-                ...item,
+                questionId: item.questionId,
+                questionText: item.questionText,
+                questionMark: item.questionMark,
+                timeAlloted: item.timeAlloted,
+                answerOptions: item.answerOptions,
+                genreId: item.genreId,
                 givenAnswerText : sortedAnswerDetails[index].givenAnswerText,
                 rightNess : sortedAnswerDetails[index].rightNess,
                 answerGiven: sortedAnswerDetails[index].answerGiven,

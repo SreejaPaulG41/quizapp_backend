@@ -24,7 +24,9 @@ router.get('/dashboard', auth, async(req, res) => {
 router.get('/genreDetails', auth, async(req, res) => {
     try {
         try {
-            const genreDetails = await Genres.findAll();
+            const genreDetails = await Genres.findAll({
+                attributes: ["genreId", "genreName"]
+            });
             res.json(genreDetails);   
         } catch (error) {
             console.log(error)

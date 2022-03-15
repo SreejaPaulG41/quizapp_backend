@@ -10,6 +10,7 @@ const authenticationRoute = require('./router/authentication');
 const dashboard = require('./router/dasboard');
 const questions = require('./router/questions');
 const answers = require('./router/result');
+const leaderBoard = require('./router/leaderBoard');
 
 const app = express();
 const port = 5000;
@@ -44,28 +45,5 @@ app.use('/',questions);
 //store the given answers
 app.use('/',answers);
 
-// app.get('/check', async(req, res)=>{
-//     const rj = await models.Genres.findOne({
-//         where :{
-          
-//         },
-//         include: [{
-//             model: models.Questions,
-//             where: {
-//                 genreId: 'JS02'  ,
-//                 questionText: "a"
-//             }
-//         }]
-//     })
-//     // console.log(JSON.stringify(rj.genreId))
-//     // const val = JSON.stringify(rj.genreId);
-//     const ques = await models.Questions.findAll({
-//         include: [{
-//             model: models.Genres,
-//             where: {
-//                 genreName : "React JS"  
-//             }
-//         }]
-//     })
-//     console.log(ques)
-// })
+//LeaderBoard Page
+app.use('/',leaderBoard);
