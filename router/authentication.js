@@ -46,9 +46,14 @@ router.post('/register', async (req, res) => {
                     console.log(JSON.stringify(newUser.id))
                     //Jwt Token Generate
                     const userId = JSON.stringify(newUser.id);
-                    console.log(userId);
                     const jwtToken = jwtGenerator(userId);
-                    res.json({ jwtToken });
+                    const userInfo = await Users.findOne({
+                        attributes: ["id", "firstName", "lastName", "email"],
+                        where: {
+                            id: userId
+                        }
+                    })
+                    res.json({ jwtToken, userInfo });
                 }
             } catch (error) {
                 console.log(error)
@@ -91,7 +96,13 @@ router.post('/login', async (req, res) => {
                         //Generate JWT Token
                         const userId = JSON.stringify(user.id);
                         const jwtToken = jwtGenerator(userId);
-                        res.json({ jwtToken });
+                        const userInfo = await Users.findOne({
+                            attributes: ["id", "firstName", "lastName", "email"],
+                            where: {
+                                id: userId
+                            }
+                        })
+                        res.json({ jwtToken, userInfo });
                     } else {
                         res.status(401).send("Password Incorrect!");
                     }
