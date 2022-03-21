@@ -30,9 +30,10 @@ app.use('/auth',authenticationRoute);
 //Is the user authenticate
 app.get('/valid-check', auth, async(req, res) => {
     try {
-        res.json(true)
+        res.json({valid: true})
     } catch (error) {
         console.log(error)
+        res.json(error)
     }
 })
 

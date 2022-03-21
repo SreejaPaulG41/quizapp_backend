@@ -97,6 +97,8 @@ router.get('/getAnswerDetails', auth, async (req, res) => {
     try {
         const userId = parseInt(req.user);
         const { genreId } = req.query;
+        console.log("genreId")
+        console.log(genreId)
         try {
             //Get all answerdata 
             const answerStored = await Answers.findOne({

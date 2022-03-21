@@ -24,8 +24,14 @@ router.get("/leaderBoard", auth, async (req, res) => {
                     id: item.userId
                 }
             })
+            const genreName = await Genres.findOne({
+                attributes: ["genreName"],
+                where: {
+                    genreId: item.genreId
+                }
+            })
             const date = item.quizGivenTime?.getDate() + " / " + item.quizGivenTime?.getMonth() + " / " + item.quizGivenTime?.getFullYear();
-            return {userFullName: userName.firstName + " " + userName.lastName, fullMarks: item.fullMarks, userScore: item.userScore, quizGivenTime: date}
+            return {userFullName: userName.firstName + " " + userName.lastName, genreName: genreName.genreName, fullMarks: item.fullMarks, userScore: item.userScore, quizGivenTime: date}
         }))
         res.json(dataToSend)
     } catch (error) {

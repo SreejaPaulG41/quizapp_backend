@@ -16,7 +16,7 @@ const auth = async (req, res, next)=>{
         }
     } catch (error) {
         console.log(error)
-        res.status(403).send("Not Valid!");
+        res.status(403).send(error);
         next(error);
     }
 }
