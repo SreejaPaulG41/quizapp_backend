@@ -11,6 +11,7 @@ const dashboard = require('./router/dasboard');
 const questions = require('./router/questions');
 const answers = require('./router/result');
 const leaderBoard = require('./router/leaderBoard');
+const newQuestionAdd = require('./router/newQuestion');
 
 const app = express();
 const port = 5000;
@@ -47,4 +48,7 @@ app.use('/',questions);
 app.use('/',answers);
 
 //LeaderBoard Page
-app.use('/',leaderBoard);
+app.use('/', leaderBoard);
+
+//New Question Add
+app.use('/', newQuestionAdd);
