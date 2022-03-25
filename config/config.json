@@ -23,6 +23,7 @@
         "require": true,
         "rejectUnauthorized": false
       }
-    }
+    },
+    "dialect": "postgres"
   }
 }
