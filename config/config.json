@@ -20,6 +20,7 @@
     "host": "ec2-52-18-116-67.eu-west-1.compute.amazonaws.com",
     "dialectOptions": {
       "ssl": {
+        "require": true,
         "rejectUnauthorized": false
       }
     }
