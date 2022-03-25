@@ -1,9 +1,9 @@
 {
   "development": {
-    "username": "pgtbwuddnkvirh",
-    "password": "f3be2babf8938cd374d38f2c130ce9eb478ecc67dd2d159516351c13e1334334",
-    "database": "d3oua6a8bm6ejo",
-    "host": "ec2-52-18-116-67.eu-west-1.compute.amazonaws.com",
+    "username": "postgres",
+    "password": null,
+    "database": "quizapp",
+    "host": "127.0.0.1",
     "dialect": "postgres"
   },
   "test": {
