@@ -13,8 +13,9 @@ module.exports = {
         "Users",
         "isAdmin",
         {
-          allowNull: true,
-          type: Sequelize.BOOLEAN
+          allowNull: false,
+          type: Sequelize.BOOLEAN,
+          defaultValue: false,
         }
       )
     ])
