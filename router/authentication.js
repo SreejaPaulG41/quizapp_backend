@@ -13,7 +13,7 @@ const validEmail = (userEmail) => {
 //Register Route
 router.post('/register', async (req, res) => {
     try {
-        const { firstName, lastName, email, password } = req.body;
+        const { firstName, lastName, email, password, isAdmin } = req.body;
         if (!firstName || !lastName || !email || !password) {
             res.status(401).send("Please Fill All The Fields To Proceed");
         } else if (!validEmail(email)) {
@@ -38,7 +38,7 @@ router.post('/register', async (req, res) => {
                     const bcryptPassword = await bcrypt.hash(password, salt);
                     //Add This Password along with other credentials
                     const newUser = await Users.create({
-                        firstName: firstName, lastName: lastName, email: email, password: bcryptPassword
+                        firstName: firstName, lastName: lastName, email: email, password: bcryptPassword, isAdmin: isAdmin
                     })
                     console.log("newUser")
                     console.log(newUser);
