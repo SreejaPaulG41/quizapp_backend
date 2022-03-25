@@ -12,11 +12,15 @@ const adminCheck = async (req, res, next)=>{
                 id: userId
             }
         })
-        req.isAdmin = await userInformation?.isAdmin;
-        next();
+        if(userInformation?.isAdmin){
+            req.isAdmin = await userInformation?.isAdmin;
+            next();
+        }else{
+            res.status(403).send("Only Admin Can Add Questions");
+        }
     } catch (error) {
         console.log(error)
-        res.status(502).send(error);
+        res.status(403).send("Only Admin Can Add Questions");// This Runs
         next(error);
     }
 }

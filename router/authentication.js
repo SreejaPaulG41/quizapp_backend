@@ -48,7 +48,7 @@ router.post('/register', async (req, res) => {
                     const userId = JSON.stringify(newUser.id);
                     const jwtToken = jwtGenerator(userId);
                     const userInfo = await Users.findOne({
-                        attributes: ["id", "firstName", "lastName", "email"],
+                        attributes: ["id", "firstName", "lastName", "email", "isAdmin"],
                         where: {
                             id: userId
                         }
@@ -97,7 +97,7 @@ router.post('/login', async (req, res) => {
                         const userId = JSON.stringify(user.id);
                         const jwtToken = jwtGenerator(userId);
                         const userInfo = await Users.findOne({
-                            attributes: ["id", "firstName", "lastName", "email"],
+                            attributes: ["id", "firstName", "lastName", "email", "isAdmin"],
                             where: {
                                 id: userId
                             }
