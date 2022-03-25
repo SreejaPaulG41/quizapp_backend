@@ -12,6 +12,7 @@ const questions = require('./router/questions');
 const answers = require('./router/result');
 const leaderBoard = require('./router/leaderBoard');
 const newQuestionAdd = require('./router/newQuestion');
+require("dotenv").config();
 
 const app = express();
 const port = 5000;
@@ -21,7 +22,7 @@ app.use(express.json());
 
 app.use(morgan('tiny'));
 
-app.listen(port, () => {
+app.listen(process.env.PORT || port, () => {
     console.log(`Listening To Port ${port}`);
 })
 
