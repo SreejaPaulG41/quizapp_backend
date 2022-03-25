@@ -78,7 +78,7 @@ router.post('/add-new-question', auth, adminCheck, async (req, res) => {
                 timeAlloted,
                 answerOptions: answerOptions,
             })
-            res.json(newQuestion)
+            res.json({response: "New Question Added Successfully!"})
         }else{
             res.status(502).send("This Question Is Allready Present In This Genre!")
         }
