@@ -32,6 +32,8 @@ const getGenreIdFromName = async (name) => {
         return newGenreId;
     }
 }
+
+//Add A New Question
 router.post('/add-new-question', auth, adminCheck, async (req, res) => {
     try {
         const { genreName, questionText, questionMark, timeAlloted, answerOptions } = req.body;

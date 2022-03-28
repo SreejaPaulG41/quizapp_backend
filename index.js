@@ -12,6 +12,8 @@ const questions = require('./router/questions');
 const answers = require('./router/result');
 const leaderBoard = require('./router/leaderBoard');
 const newQuestionAdd = require('./router/newQuestion');
+const adminOperations = require('./router/adminOperations');
+
 require("dotenv").config();
 
 const app = express();
@@ -51,5 +53,8 @@ app.use('/',answers);
 //LeaderBoard Page
 app.use('/', leaderBoard);
 
-//New Question Add
+//New Question Add - Admin Operation
 app.use('/', newQuestionAdd);
+
+//Update, Delete A Question - Admin Operation
+app.use('/', adminOperations);
