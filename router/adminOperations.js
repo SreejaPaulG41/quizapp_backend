@@ -90,7 +90,14 @@ router.get("/get-a-question", auth, adminCheck, async(req, res)=>{
 router.put("/update-question", auth, adminCheck, async(req, res)=>{
     try {
         const { questionId, genreName, questionText, questionMark, timeAlloted, answerOptions } = req.body;
-        const updatedQuestion = await Questions.update({genreName, questionText, questionMark, timeAlloted, answerOptions},{
+        const genreInfo = await Genres.findOne({
+            attributes: ["genreId"],
+            where: {
+                genreName
+            }
+        })
+        //res.json(genreInfo)
+        const updatedQuestion = await Questions.update({genreId: genreInfo?.genreId, questionText, questionMark, timeAlloted, answerOptions},{
             where: {
                 questionId 
             }
