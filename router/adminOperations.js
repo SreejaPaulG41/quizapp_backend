@@ -38,7 +38,8 @@ router.get('/allQuestions', auth, adminCheck, async (req, res)=>{
 //Delete Question
 router.delete("/delete-question", auth, adminCheck, async(req, res)=>{
     try {
-        const { questionId } = req.query;
+        const { questionId } = req.body;
+        console.log(questionId)
         const question = await Questions.destroy({
             where:{
                 questionId
