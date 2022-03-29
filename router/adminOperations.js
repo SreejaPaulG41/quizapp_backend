@@ -89,8 +89,7 @@ router.get("/get-a-question", auth, adminCheck, async(req, res)=>{
 //Update A Question
 router.put("/update-question", auth, adminCheck, async(req, res)=>{
     try {
-        const { questionId } = req.query;
-        const { genreName, questionText, questionMark, timeAlloted, answerOptions } = req.body;
+        const { questionId, genreName, questionText, questionMark, timeAlloted, answerOptions } = req.body;
         const updatedQuestion = await Questions.update({genreName, questionText, questionMark, timeAlloted, answerOptions},{
             where: {
                 questionId 
